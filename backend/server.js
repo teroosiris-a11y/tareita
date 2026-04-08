@@ -23,9 +23,11 @@ app.use(express.json());
 /* RUTAS */ 
 const cajasRoutes = require("./routes/cajas.routes");
 const apuestasRoutes = require("./routes/apuestas.routes");
+const rolesRoutes = require("./routes/roles.routes");
 
 app.use("/api", cajasRoutes);
 app.use("/api", apuestasRoutes);
+app.use("/api", rolesRoutes);
 
 
 /* CREAR CARPETA UPLOADS SI NO EXISTE*/
