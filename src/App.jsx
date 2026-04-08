@@ -1,73 +1,125 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 
+// PAGES USUARIO
+import Home from "./pages/Home";
+import Apuestas from "./pages/Apuestas";
 import Recargas from "./pages/Recargas";
 import Retiros from "./pages/Retiros";
-import Apuestas from "./pages/Apuestas";
+import Inversion from "./pages/Inversion";
 import Cuenta from "./pages/Cuenta";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import PanelRecargas from "./pages/PanelRecargas";
-import PanelApuestas from "./pages/PanelApuestas";
-import PanelRetiros from "./pages/PanelRetiros";
-import PageStub from "./pages/PageStub";
-import AdminModConfig from "./pages/AdminModConfig";
 
+// ADMIN PAGES
+import PanelRecargas from "./pages/PanelRecargas";
+import PanelInversiones from "./pages/PanelInversiones";
+import PanelApuestas from "./pages/PanelApuestas";
+import PanelRetiros from "./pages/PanelRetiros";   // <<< NUEVO IMPORT
+
+// ROUTES
 import PrivateRoute from "./components/PrivateRoute";
-import RoleRoute from "./components/RoleRoute";
-import { UserLayout, AdminLayout } from "./components/AppLayout";
+import AdminRoute from "./components/AdminRoute";
 
 function App() {
   return (
     <Routes>
+      {/* PÚBLICAS */}
       <Route path="/" element={<Navigate to="/login" replace />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
 
+      {/* USUARIO */}
       <Route
+        path="/home"
         element={
           <PrivateRoute>
-            <UserLayout />
+            <Home />
           </PrivateRoute>
         }
-      >
-        <Route path="/home" element={<Navigate to="/apuestas" replace />} />
-        <Route path="/recargas" element={<Recargas />} />
-        <Route path="/retiros" element={<Retiros />} />
-        <Route path="/apuestas" element={<Apuestas />} />
-        <Route path="/cuenta" element={<Cuenta />} />
-      </Route>
+      />
 
       <Route
+        path="/cuenta"
         element={
-          <RoleRoute allowedRoles={["admin", "mod"]}>
-            <AdminLayout />
-          </RoleRoute>
+          <PrivateRoute>
+            <Cuenta />
+          </PrivateRoute>
         }
-      >
-        <Route path="/admin-apuestas" element={<PanelApuestas />} />
-        <Route path="/admin-recargas" element={<PanelRecargas />} />
-        <Route path="/admin-retiros" element={<PanelRetiros />} />
-        <Route
-          path="/admin-micuenta"
-          element={
-            <PageStub
-              title="Admin - Mi Cuenta"
-              subtitle="Vista base para datos del administrador/moderador."
-            />
-          }
-        />
-      </Route>
+      />
 
       <Route
-        path="/admin/configuracion-mod"
+        path="/recargas"
         element={
-          <RoleRoute allowedRoles={["admin"]}>
-            <AdminLayout />
-          </RoleRoute>
+          <PrivateRoute>
+            <Recargas />
+          </PrivateRoute>
         }
-      >
-        <Route index element={<AdminModConfig />} />
-      </Route>
+      />
+
+      <Route
+        path="/retiros"
+        element={
+          <PrivateRoute>
+            <Retiros />
+          </PrivateRoute>
+        }
+      />
+
+      <Route
+        path="/inversion"
+        element={
+          <PrivateRoute>
+            <Inversion />
+          </PrivateRoute>
+        }
+      />
+
+      <Route
+        path="/apuestas"
+        element={
+          <PrivateRoute>
+            <Apuestas />
+          </PrivateRoute>
+        }
+      />
+
+      {/* ADMIN */}
+      <Route
+        path="/admin/recargas"
+        element={
+          <AdminRoute>
+            <PanelRecargas />
+          </AdminRoute>
+        }
+      />
+
+      <Route
+        path="/admin/inversiones"
+        element={
+          <AdminRoute>
+            <PanelInversiones />
+          </AdminRoute>
+        }
+      />
+
+      <Route
+        path="/admin/apuestas"
+        element={
+          <AdminRoute>
+            <PanelApuestas />
+          </AdminRoute>
+        }
+      />
+
+      {/* NUEVO PANEL DE RETIROS */}
+      <Route
+        path="/admin/retiros"
+        element={
+          <AdminRoute>
+            <PanelRetiros />
+          </AdminRoute>
+        }
+      />
     </Routes>
   );
 }
